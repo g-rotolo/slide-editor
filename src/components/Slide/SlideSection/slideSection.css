@@ -1,0 +1,22 @@
+.section-container {
+    flex: 1 1;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.slide-image {
+    display: block;
+    font-size: 80px;
+    color: #191919;
+    cursor: pointer;
+}
+
+.option-container {
+    text-align: center;
+}
+
+.option-container > p {
+    font-size: 35px;
+}
