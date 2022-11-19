@@ -75,11 +75,24 @@ export const useSlide = () => {
         [slideData]
     );
 
+    const switchSectionPosition = useCallback(
+        (sourceIndex: number, destinationIndex: number) => {
+            const sections = [...slideData.sections];
+            [sections[sourceIndex], sections[destinationIndex]] = [
+                sections[destinationIndex],
+                sections[sourceIndex],
+            ];
+            setSlideData({ ...slideData, sections: [...sections] });
+        },
+        [slideData]
+    );
+
     return {
         slideData,
         setSlideTitle,
         setSectionIcon,
         setSectionTitle,
         setSectionText,
+        switchSectionPosition,
     };
 };

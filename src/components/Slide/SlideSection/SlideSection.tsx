@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 import Select from 'react-select';
 import { iconOptions } from '../../../const/icons';
+import Container from '../../Container/Container';
 import IconOption from '../../IconOption/IconOption';
 import { SlideSectionData } from '../types';
 
@@ -11,6 +13,7 @@ interface SlideSectionProps {
     setSectionIcon: (sectionId: number, newIcon: string) => void;
     setSectionTitle: (sectionId: number, newTitle: string) => void;
     setSectionText: (sectionId: number, newText: string) => void;
+    sectionIndex: number;
 }
 
 const SlideSection: React.FC<SlideSectionProps> = ({
@@ -18,6 +21,7 @@ const SlideSection: React.FC<SlideSectionProps> = ({
     setSectionIcon,
     setSectionTitle,
     setSectionText,
+    sectionIndex,
 }) => {
     const [showIconSelect, setShowIconSelect] = useState(false);
 
@@ -49,41 +53,53 @@ const SlideSection: React.FC<SlideSectionProps> = ({
     );
 
     return (
-        <div className="section-container" id={section.id.toString()}>
-            {section.icon ? (
-                <span
-                    className="material-icons slide-image"
-                    onClick={showIconSelectHandler}
+        <Draggable
+            draggableId={section.id.toString()}
+            index={sectionIndex}
+            key={section.id}
+        >
+            {provided => (
+                <Container
+                    className="section-container"
+                    draggableProvided={provided}
+                    innerRef={provided.innerRef}
                 >
-                    {section.icon}
-                </span>
-            ) : (
-                <p onClick={showIconSelectHandler}>Choose icon...</p>
-            )}
+                    {section.icon ? (
+                        <span
+                            className="material-icons slide-image"
+                            onClick={showIconSelectHandler}
+                        >
+                            {section.icon}
+                        </span>
+                    ) : (
+                        <p onClick={showIconSelectHandler}>Choose icon...</p>
+                    )}
 
-            {showIconSelect && (
-                <Select
-                    menuIsOpen={true}
-                    components={{ Option: IconOption }}
-                    options={iconOptions}
-                    onChange={iconClickHandler}
-                />
-            )}
+                    {showIconSelect && (
+                        <Select
+                            menuIsOpen={true}
+                            components={{ Option: IconOption }}
+                            options={iconOptions}
+                            onChange={iconClickHandler}
+                        />
+                    )}
 
-            <input
-                className="big"
-                type="text"
-                placeholder="Insert text here"
-                onChange={onChangeTitle}
-                value={section.title}
-            ></input>
-            <textarea
-                className="medium"
-                placeholder="Add additional text"
-                onChange={onChangeText}
-                value={section.additionalText}
-            ></textarea>
-        </div>
+                    <input
+                        className="big"
+                        type="text"
+                        placeholder="Insert text here"
+                        onChange={onChangeTitle}
+                        value={section.title}
+                    ></input>
+                    <textarea
+                        className="medium"
+                        placeholder="Add additional text"
+                        onChange={onChangeText}
+                        value={section.additionalText}
+                    ></textarea>
+                </Container>
+            )}
+        </Draggable>
     );
 };
 
