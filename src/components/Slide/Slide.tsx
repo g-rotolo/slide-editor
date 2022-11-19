@@ -7,7 +7,6 @@ import SlideSection from './SlideSection/SlideSection';
 import './slide.css';
 
 const Slide = () => {
-    console.log('S:lide');
     const {
         slideData,
         setSlideTitle,
