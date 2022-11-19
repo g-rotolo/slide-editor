@@ -21,3 +21,17 @@
 .option-container > p {
     font-size: 35px;
 }
+
+.choose-icon {
+    margin: 0;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.print-helper {
+    word-break: break-all;
+    width: 85%;
+    padding: 0 15px;
+}

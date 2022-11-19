@@ -10,25 +10,7 @@
     display: flex;
 }
 
-input {
-    border: none;
+.button-container {
+    margin: 100px 0;
     text-align: center;
-}
-
-input.big {
-    height: 50px;
-    font-size: 20px;
-    font-weight: 600;
-}
-
-textarea.medium {
-    border: none;
-    text-align: center;
-    font-size: 15px;
-    resize: vertical;
-}
-
-input.medium {
-    height: 30px;
-    font-size: 15px;
 }

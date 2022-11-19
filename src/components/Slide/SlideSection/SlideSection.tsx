@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import Select from 'react-select';
 import { iconOptions } from '../../../const/icons';
-import Container from '../../Container/Container';
 import IconOption from '../../IconOption/IconOption';
 import { SlideSectionData } from '../types';
 
@@ -14,6 +13,7 @@ interface SlideSectionProps {
     setSectionTitle: (sectionId: number, newTitle: string) => void;
     setSectionText: (sectionId: number, newText: string) => void;
     sectionIndex: number;
+    isPrinting: boolean;
 }
 
 const SlideSection: React.FC<SlideSectionProps> = ({
@@ -22,6 +22,7 @@ const SlideSection: React.FC<SlideSectionProps> = ({
     setSectionTitle,
     setSectionText,
     sectionIndex,
+    isPrinting,
 }) => {
     const [showIconSelect, setShowIconSelect] = useState(false);
 
@@ -59,10 +60,12 @@ const SlideSection: React.FC<SlideSectionProps> = ({
             key={section.id}
         >
             {provided => (
-                <Container
+                <div
                     className="section-container"
-                    draggableProvided={provided}
-                    innerRef={provided.innerRef}
+                    {...provided.dragHandleProps}
+                    {...provided.draggableProps}
+                    ref={provided.innerRef}
+                    id={`section-container-${section.id}`}
                 >
                     {section.icon ? (
                         <span
@@ -72,7 +75,12 @@ const SlideSection: React.FC<SlideSectionProps> = ({
                             {section.icon}
                         </span>
                     ) : (
-                        <p onClick={showIconSelectHandler}>Choose icon...</p>
+                        <p
+                            className="choose-icon"
+                            onClick={showIconSelectHandler}
+                        >
+                            Choose icon...
+                        </p>
                     )}
 
                     {showIconSelect && (
@@ -91,13 +99,23 @@ const SlideSection: React.FC<SlideSectionProps> = ({
                         onChange={onChangeTitle}
                         value={section.title}
                     ></input>
-                    <textarea
-                        className="medium"
-                        placeholder="Add additional text"
-                        onChange={onChangeText}
-                        value={section.additionalText}
-                    ></textarea>
-                </Container>
+                    {isPrinting ? (
+                        <p
+                            className="print-helper"
+                            id={`additional-text-${section.id}`}
+                        >
+                            {section.additionalText}
+                        </p>
+                    ) : (
+                        <textarea
+                            id={`textarea-section-${section.id}`}
+                            className="textarea-medium"
+                            placeholder="Add additional text"
+                            onChange={onChangeText}
+                            value={section.additionalText}
+                        ></textarea>
+                    )}
+                </div>
             )}
         </Draggable>
     );
